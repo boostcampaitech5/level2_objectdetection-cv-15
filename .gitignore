@@ -166,3 +166,4 @@ mmdetection/setup.py
 
 # codebook
 codebook/EDA.ipynb
+codebook/requirements_eda.txt
