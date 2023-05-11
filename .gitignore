@@ -101,7 +101,6 @@ ENV/
 .mypy_cache/
 
 # editor, os cache directory
-.vscode/
 .idea/
 __MACOSX/
 
@@ -138,15 +137,13 @@ mmdetection/.circleci
 mmdetection/.dev_scripts
 mmdetection/.git
 mmdetection/.github
-mmdetection/configs
 mmdetection/demo
 mmdetection/docker
 mmdetection/docs
 mmdetection/mmdet
+mmdetection/artifacts
 mmdetection/requirements
 mmdetection/resources
-mmdetection/tests
-mmdetection/tools
 mmdetection/.owners.yml
 mmdetection/.gitignore
 mmdetection/.pre-commit-config.yaml
@@ -163,6 +160,8 @@ mmdetection/README.md
 mmdetection/requirements.txt
 mmdetection/setup.cfg
 mmdetection/setup.py
+mmdetection/wandb
+mmdetection/checkpoint
 
 # codebook
 codebook/requirements_eda.txt
