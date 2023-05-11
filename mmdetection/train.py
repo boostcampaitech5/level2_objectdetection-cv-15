@@ -30,23 +30,6 @@ root = "../../dataset/"
 print(base_dir + "/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py")
 cfg = Config.fromfile(base_dir + "/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py")
 
-# wandb config 설정
-cfg.log_config.hooks = [
-    dict(type="TextLoggerHook"),
-    dict(
-        type="MMDetWandbHook",
-        init_kwargs={
-            "project": "TA_test",
-            "name": "test",
-            "entity": "hype-squad",
-        },
-        interval=50,
-        log_checkpoint=False,
-        log_checkpoint_metadata=False,
-        num_eval_images=100,
-    ),
-]
-
 # model config 수정
 cfg.model.roi_head.bbox_head.num_classes = 10
 # cfg.model.roi_head.bbox_head.loss_bbox = dict(type="CIoULoss", loss_weight=12.0)
@@ -77,10 +60,28 @@ cfg.optimizer_config.grad_clip = dict(max_norm=35, norm_type=2)
 # 기타 config 수정
 cfg.seed = 2023
 cfg.gpu_ids = [0]
-cfg.work_dir = work_dir
+cfg.work_dir = checkpoint_dir
 cfg.checkpoint_config = dict(max_keep_ckpts=3, interval=1)
 cfg.device = get_device()
 cfg.runner.max_epochs = 1
+
+# wandb config 설정
+cfg.log_config.hooks = [
+    dict(type="TextLoggerHook"),
+    dict(
+        type="MMDetWandbHook",
+        init_kwargs={
+            "project": "Faster_RCNN",
+            "name": "RESNET50_SGD_STEP_E12",
+            "entity": "hype-squad",
+            "config": cfg,
+        },
+        interval=50,
+        log_checkpoint=False,
+        log_checkpoint_metadata=False,
+        num_eval_images=100,
+    ),
+]
 
 # build_dataset
 datasets = [build_dataset(cfg.data.train)]
@@ -96,8 +97,8 @@ model.init_weights()
 train_detector(model, datasets[0], cfg, distributed=False, validate=True)
 
 # 최종 config 저장
-with open(work_dir + "/exp.py", "w") as f:
+with open(checkpoint_dir + "/exp.py", "w") as f:
     f.write(cfg.pretty_text)
 
 # inference
-inference.run(work_dir + "/exp.py")
+inference.run(checkpoint_dir + "/exp.py")
