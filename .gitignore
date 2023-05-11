@@ -140,7 +140,6 @@ mmdetection/.github
 mmdetection/demo
 mmdetection/docker
 mmdetection/docs
-mmdetection/mmdet
 mmdetection/artifacts
 mmdetection/requirements
 mmdetection/resources
