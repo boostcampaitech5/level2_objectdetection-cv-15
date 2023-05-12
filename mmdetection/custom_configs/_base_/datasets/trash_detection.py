@@ -1,3 +1,19 @@
+"""
+Train 되는데 발산, 소멸 하는 aug
+- ColorTransform
+- RandomCenterCropPad
+- ContrastTransform
+- PhotoMetricDistortion
+- YOLOXHSVRrandomAug
+오류나는 것
+- EqualizeTransform
+- Mosaic
+- MixUp
+- CopyPaste
+
+** 오류나는 것은 확실하게 현재 사용이 불가능한 것이고,
+발산하는 aug는 pipeline에서 aug 순서에 따라 사용가능할 것으로 예상됩니다.**
+"""
 # dataset settings
 dataset_type = "TrashDataset"
 data_root = "/opt/ml/dataset/"
@@ -7,8 +23,6 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type="LoadImageFromFile"),
     dict(type="LoadAnnotations", with_bbox=True),
-    dict(type="Resize", img_scale=(512, 512), keep_ratio=True),
-    dict(type="Normalize", **img_norm_cfg),
     # Geometric Transformations
     # RandomFlip : flip_ratio(0 ~ 1), direction('vertical' 가능)
     dict(type="RandomFlip", flip_ratio=0.5, direction="horizontal"),
@@ -23,7 +37,7 @@ train_pipeline = [
     ),
     # Rotate : level(0~10), max_rotate_angle(양수->시계방향)
     dict(
-        type="Rotate", level=0, prob=0.5, max_rotate_angle=30, random_negative_porb=0.5
+        type="Rotate", level=0, prob=0.5, max_rotate_angle=30, random_negative_prob=0.5
     ),
     # Translate : level(0~10), direction('vertical' 가능), min_size(tranlate 후 filtering할 최소 bbox pixel)
     dict(
@@ -56,17 +70,19 @@ train_pipeline = [
         bbox_clip_border=True,
     ),
     # RandomCenterCropPad : crop_size(tuple | None - expected size after crop), ratios(tuple-random select a ratio from tuple and crop image) -> notion 설명 참조
-    dict(
-        type="RandomCenterCropPad",
-        crop_size=None,
-        ratios=(0.9, 1.0, 1.1),
-        border=128,
-        mean=None,
-        std=None,
-        to_rgb=None,
-        test_mode=False,
-        bbox_clip_border=True,
-    ),
+    # dict(
+    #     type="RandomCenterCropPad",
+    #     crop_size=(512, 512),
+    #     ratios=(0.9, 1.0, 1.1),
+    #     border=128,
+    #     mean=[123.675, 116.28, 103.53],
+    #     std=[58.395, 57.12, 57.375],
+    #     to_rgb=True,
+    #     test_mode=False,
+    #     test_pad_mode=None,
+    #     test_pad_add_pix=0,
+    #     bbox_clip_border=True,
+    # ),
     # RandomAffine : randomly generates affine transform matrix(rotate, translate, shear, scale) -> notion 참조
     dict(
         type="RandomAffine",
@@ -86,62 +102,64 @@ train_pipeline = [
     # ColorTransform : 원본 이미지와 회색 이미지 혼합?, level(0 ~ 10)
     dict(type="ColorTransform", level=0, prob=0.5),
     # EqualizeTransform : Equalize the image histogram
-    dict(type="EqualizeTransform", prob=0.5),
+    # dict(type="EqualizeTransform", prob=0.5),
     # BrightnessTransform : level(0 ~ 10), 이미지 밝게 Transform
     dict(type="BrightnessTransform", level=0, prob=0.5),
     # ContrastTransform : level(0 ~ 10), 대비 조절
-    dict(type="ContrastTransform", level=0, prob=0.5),
+    # dict(type="ContrastTransform", level=0, prob=0.5),
     # photoMetricDistortion : brightness_delta(int), contrast_range(tuple), hue_delta(int) -> 자세한 aug 방법은 notion 확인
-    dict(
-        type="PhotoMetricDistortion",
-        brightness_delta=32,
-        contrast_range=(0.5, 1.5),
-        hue_delta=18,
-    ),
-    # YOLOXHSVTandomAug : HSV 채널로 바꾸고 random하게 변경 후, 다시 BGR(RGB)로 바꿔주는 aug
-    dict(type="YOLOXHSVRandomAug", hue_delta=5, saturation_delta=30, value_dalta=30),
+    # dict(
+    #     type="PhotoMetricDistortion",
+    #     brightness_delta=32,
+    #     contrast_range=(0.5, 1.5),
+    #     hue_delta=18,
+    # ),
+    # YOLOXHSVRandomAug : HSV 채널로 바꾸고 random하게 변경 후, 다시 BGR(RGB)로 바꿔주는 aug
+    # dict(type="YOLOXHSVRandomAug", hue_delta=5, saturation_delta=30, value_delta=30),
     # Extra Augmentations
     # CutOut : n_holes(int | tuple(int, int)), cutout_shape(tuple(int, int) | list[tuple(int, int)]), cutout_ratio(tuple(float, float) | list[tuple(float, float)]), fill_in(tuple[int, int, int]-int에 float 가능) -> notion 참조
     dict(
         type="CutOut",
         n_holes=1,
         cutout_shape=(50, 50),
-        cutout_ratio=(0.4, 0.6),
+        cutout_ratio=None,
         fill_in=(0, 0, 0),
     ),
     # Mosaic : img_scale(Sequence[int]-Image size after mosaic(height, width)) -> notion 참조
-    dict(
-        type="Mosaic",
-        img_scale=(512, 512),
-        center_ratio_range=(0.5, 1.5),
-        min_bbox_size=0,
-        bbox_clip_border=True,
-        skip_filter=True,
-        pad_val=114,
-        prob=1.0,
-    ),
+    # dict(
+    #     type="Mosaic",
+    #     img_scale=(512, 512),
+    #     center_ratio_range=(0.5, 1.5),
+    #     min_bbox_size=0,
+    #     bbox_clip_border=True,
+    #     skip_filter=True,
+    #     pad_val=114,
+    #     prob=1.0,
+    # ),
     # MixUp : img_scale(Sequence[int]-Image size after mixup(height, width)) -> notion 참조
-    dict(
-        type="MixUp",
-        img_scale=(512, 512),
-        ratio_range=(0.5, 1.5),
-        flip_ratio=0.5,
-        pad_val=114,
-        mzx_iters=15,
-        min_bbox_size=5,
-        min_area_ratio=0.2,
-        min_aspect_ratio=20,
-        bbox_clip_border=True,
-        skip_filter=True,
-    ),
+    # dict(
+    #     type="MixUp",
+    #     img_scale=(512, 512),
+    #     ratio_range=(0.5, 1.5),
+    #     flip_ratio=0.5,
+    #     pad_val=114,
+    #     max_iters=15,
+    #     min_bbox_size=5,
+    #     min_area_ratio=0.2,
+    #     max_aspect_ratio=20,
+    #     bbox_clip_border=True,
+    #     skip_filter=True,
+    # ),
     # CopyPaste : Simple Copy-Paste(Strong Data Augmentation) -> notion 참조
-    dict(
-        type="CopyPaste",
-        max_num_pasted=100,
-        bbox_occluded_thr=10,
-        mask_occluded_thr=300,
-        selected=True,
-    ),
+    # dict(
+    #     type="CopyPaste",
+    #     max_num_pasted=100,
+    #     bbox_occluded_thr=10,
+    #     mask_occluded_thr=300,
+    #     selected=True,
+    # ),
+    dict(type="Resize", img_scale=(512, 512), keep_ratio=True),
+    dict(type="Normalize", **img_norm_cfg),
     dict(type="Pad", size_divisor=32),
     dict(type="DefaultFormatBundle"),
     dict(type="Collect", keys=["img", "gt_bboxes", "gt_labels"]),
