@@ -13,19 +13,7 @@ import argparse
 def train(args):
     wandb.login()
 
-    classes = (
-        "General trash",
-        "Paper",
-        "Paper pack",
-        "Metal",
-        "Glass",
-        "Plastic",
-        "Styrofoam",
-        "Plastic bag",
-        "Battery",
-        "Clothing",
-    )
-    base_dir = os.getcwd() + "/configs"
+    base_dir = os.getcwd() + "/custom_configs"
     checkpoint_dir = os.getcwd() + f"/checkpoint/{args.model_name}"
     root = "../../dataset/"
 
@@ -34,28 +22,22 @@ def train(args):
     cfg = Config.fromfile(base_dir + args.model_config)
 
     # model config 수정
-    # cfg.model.roi_head.bbox_head.num_classes = 10
+    cfg.model.roi_head.bbox_head.num_classes = 10
+    cfg.model.roi_head.bbox_head.loss_bbox = dict(type="CIoULoss", loss_weight=12.0)
 
     # dataset config 수정
-    cfg.data.train.classes = classes
-    cfg.data.train.img_prefix = root
-    cfg.data.train.ann_file = root + "train.json"
-    cfg.data.train.pipeline[2]["img_scale"] = args.resolution
+    # cfg.data.train.pipeline[14]["img_scale"] = args.resolution
 
-    cfg.data.val.classes = classes
-    cfg.data.val.img_prefix = root
-    cfg.data.val.ann_file = root + "train.json"
-    cfg.data.val.pipeline[1]["img_scale"] = args.resolution
+    # cfg.data.val.ann_file = root + "train.json"
+    # cfg.data.val.pipeline[1]["img_scale"] = args.resolution
 
-    cfg.data.test.classes = classes
-    cfg.data.test.img_prefix = root
-    cfg.data.test.ann_file = root + "test.json"
-    cfg.data.test.pipeline[1]["img_scale"] = args.resolution
+    # cfg.data.test.pipeline[1]["img_scale"] = args.resolution
     cfg.data.test.test_mode = True
 
     cfg.data.samples_per_gpu = 4
 
     # optimizer config 수정
+    # cfg.optimizer = dict(type="Adam", lr=0.0002, weight_decay=0.001)
     cfg.optimizer_config.grad_clip = dict(max_norm=35, norm_type=2)
 
     # 기타 config 수정
@@ -65,6 +47,12 @@ def train(args):
     cfg.checkpoint_config = dict(max_keep_ckpts=3, interval=1)
     cfg.device = get_device()
     cfg.runner.max_epochs = 1
+    cfg.evaluation.classwise = True
+
+    # 최종 config 저장
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    with open(checkpoint_dir + "/exp.py", "w") as f:
+        f.write(cfg.pretty_text)
 
     # wandb config 설정
     cfg.log_config.hooks = [
@@ -95,11 +83,7 @@ def train(args):
     model.init_weights()
 
     # 모델 학습
-    train_detector(model, datasets[0], cfg, distributed=False, validate=True)
-
-    # 최종 config 저장
-    with open(checkpoint_dir + "/exp.py", "w") as f:
-        f.write(cfg.pretty_text)
+    train_detector(model, datasets[0], cfg, distributed=False, validate=False)
 
     # inference
     inference.run(checkpoint_dir + "/exp.py")
@@ -117,13 +101,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_config",
         type=str,
-        default="/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py",
+        default="/custom_1x.py",
         help="model config file",
     )
     parser.add_argument(
         "--resolution",
         type=tuple,
-        default=(1024, 1024),
+        default=(512, 512),
         help="resolution",
     )
     parser.add_argument(
