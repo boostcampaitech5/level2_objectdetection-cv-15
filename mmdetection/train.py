@@ -23,13 +23,13 @@ cfg.model.roi_head.bbox_head.num_classes = 10
 cfg.model.roi_head.bbox_head.loss_bbox = dict(type="CIoULoss", loss_weight=12.0)
 
 # dataset config 수정
-# cfg.data.train.pipeline[2]["img_scale"] = (1024, 1024)
+# cfg.data.train.pipeline[14]["img_scale"] = (1024, 1024)
 
 # cfg.data.val.ann_file = root + "train.json"
 # cfg.data.val.pipeline[1]["img_scale"] = (1024, 1024)
 
 # cfg.data.test.pipeline[1]["img_scale"] = (1024, 1024)
-# cfg.data.test.test_mode = True
+cfg.data.test.test_mode = True
 
 cfg.data.samples_per_gpu = 4
 
