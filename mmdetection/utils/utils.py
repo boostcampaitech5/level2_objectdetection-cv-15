@@ -39,5 +39,5 @@ def coco_to_pascal(cfg, output):
 def make_submission(cfg, prediction_strings, file_names):
     submission = pd.DataFrame()
     submission["PredictionString"] = prediction_strings
-    submission["Image_id"] = file_names
+    submission["image_id"] = file_names
     submission.to_csv(os.path.join(cfg.work_dir, "submission_latest.csv"), index=None)
