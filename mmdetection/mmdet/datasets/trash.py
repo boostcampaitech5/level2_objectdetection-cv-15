@@ -646,14 +646,14 @@ class TrashDataset(CustomDataset):
             if metric not in allowed_metrics:
                 raise KeyError(f"metric {metric} is not supported")
 
-        COCO_gt = self.COCO
-        self.cat_ids = COCO_gt.get_cat_ids(cat_names=self.CLASSES)
+        trash_gt = self.trash
+        self.cat_ids = trash_gt.get_cat_ids(cat_names=self.CLASSES)
 
         result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
         eval_results = self.evaluate_det_segm(
             results,
             result_files,
-            COCO_gt,
+            trash_gt,
             metrics,
             logger,
             classwise,
