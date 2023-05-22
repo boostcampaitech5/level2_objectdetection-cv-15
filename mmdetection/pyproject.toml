@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "HypeSquad"
+version = "0.1.0"
+description = ""
+authors = ["SeoYoungDeok <0duck_seo@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "=3.7.16"
+torch = {url = "https://download.pytorch.org/whl/cu110/torch-1.7.1%2Bcu110-cp37-cp37m-linux_x86_64.whl"}
+torchvision = {url = "https://download.pytorch.org/whl/cu110/torchvision-0.8.2%2Bcu110-cp37-cp37m-linux_x86_64.whl"}
+visdom = "=0.2.4"
+seaborn = "=0.12.2"
+albumentations = "=0.4.6"
+imgaug = "=0.4.0"
+pycocotools = "=2.0.6"
+opencv-python = "=4.7.0.72"
+tqdm = "=4.65.0"
+torchnet = "=0.0.4"
+pandas = "=1.1.5"
+map-boxes = "=1.0.5"
+jupyter = "=1.0.0"
+wandb = "0.15.2"
+mmcv-full = "1.7.0"
+terminaltables = "^3.1.10"
+
+[tool.black]
+line-length = 88
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+asynctest = "^0.13.0"
+codecov = "^2.1.13"
+interrogate = "^1.5.0"
+isort = "4.3.21"
+onnx = "1.7.0"
+onnxruntime = ">=1.8.0"
+protobuf = "<=3.20.1"
+pytest = "^7.3.1"
+ubelt = "^1.2.4"
+xdoctest = ">=0.10.0"
+yapf = "^0.33.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

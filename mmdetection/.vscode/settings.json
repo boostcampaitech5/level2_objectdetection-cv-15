@@ -1,0 +1,10 @@
+{
+    "python.linting.enabled": true,
+    "python.defaultInterpreterPath": "/opt/ml/level2_objectdetection-cv-15/mmdetection/.venv/bin/python3.7",
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "88"
+    ],
+    "editor.formatOnSave": true
+}
