@@ -40,7 +40,8 @@
 - relabeling의 필요성 생각
 
 ## 🍀 Folder Structer  
-├── codebook : EDA, ensemble, visualize등의 코드를 작성 
+``` bash
+├── codebook : EDA, ensemble, visualize등의 코드를 작성  
 │   ├── EDA.ipynb  
 │   ├── ensemble_WBF.py  
 │   ├── groupKfold.ipynb  
@@ -53,6 +54,7 @@
 │   ├── train_p.py   
 │   └── pyproject.toml  
 └── .gitignore  
+```
 
 # mmdetection
 
