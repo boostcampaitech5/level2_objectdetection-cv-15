@@ -1,7 +1,7 @@
-![hype-squad-high-resolution-logo-color-on-transparent-background](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/0bc14a60-1ba9-49e4-b44f-bb5faa488b50)
+![hype-squad-high-resolution-logo-color-on-transparent-background](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/72c37292-a721-4f5a-b88a-ff81d1a8ceca)
 ## 🚮 **재활용 품목 분류를 위한 Object Detection**
 ---
-![image](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/c4c67563-0aaf-4ccf-b244-2b28cbd88a92)
+![comp](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/4bf8e16e-ed36-4899-996d-18273a7d8e94)
 ### **📆** 대회 일정 : 2023.05.03 ~ 2023.05.18
 
 ### **🗂️** Dataset
@@ -25,8 +25,8 @@
 
 ### 👨🏻‍💻 👩🏻‍💻 팀 구성  
 -------------
-|![logo1](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/99079272/53873dd9-69cc-4fe6-ba8f-034d8860cefe)|![logo2](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/8501d650-4541-40bf-986e-eaa294cfc49b)|![logo3](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/18417080-1712-4d56-96b3-58b0d61aeab0)|![logo4](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/865785b8-b0b0-4001-a2fc-30c49b195d10)|![logo5](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/da101f4d-982d-476c-839b-96b18b8bd565)|
-| --- | --- | --- | --- |  --- |
+|![logo1](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/32513a12-ac63-4d1b-9ae4-dc2dc6a7a496)|![logo2](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/8015efa2-a543-4648-aa8a-c324b6bed859)|![logo3](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/4805a650-4602-4863-98bf-b628a6085a3f)|![logo4](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/181ca1fe-022c-4641-968a-e38c496d924c)|![logo5](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/08a6781f-02ad-4f86-985d-63bc10ef3a4b)|
+| :---: | :---: | :---: | :---: |  :---: |
 | [김용우](https://github.com/yongwookim1) | [박종서](https://github.com/justinpark820) | [서영덕](https://github.com/SeoYoungDeok) |[신현준](https://github.com/june95) |[조수혜](https://github.com/suhyehye) |  
 
 ## 📊 EDA 결과
@@ -79,7 +79,7 @@
 - 개별 모델 중 최고 점수(mAP : 0.6283 → 0.6128, Cascade faster rcnn(backbone : swin transformer base))
 - 같은 모델에서는 soft-nms 방식이 결과가 좋았고, 서로 다른 모델은 WBF 방식의 성능이 좋게 나타남
 - 각각의 모델에 대해서 soft-nms를 적용한 이유는 같은 곳에 박스를 여러 번 치는 현상이 나타나 영향력을 줄이기 위해서 진행 
-![Untitled (1)](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/eb6e7f73-a9fd-4f6d-bc39-7fe846fa4f84)
+![final_model](https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/924ca3c6-29e2-41e3-b9dc-5bb10dd3c795)
 
 ## 🔍 Reference 및 출처
 
@@ -102,5 +102,5 @@
 
 
 ## 📈 score graph & result 
-<img width="1121" alt="Untitled (2)" src="https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/c1d26231-26ce-4a7e-931c-00ef45c3d22c">
-<img width="1121" alt="Untitled (3)" src="https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113486402/8107ae35-8bc9-40fd-ab39-52b8257c6dad">
+<img width="1121" alt="ranking" src="https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/1d3b91e5-e2de-4ab7-87ad-071077569e5c">
+<img width="1121" alt="ranking" src="https://github.com/boostcampaitech5/level2_objectdetection-cv-15/assets/113939970/74397a27-c53d-48d0-8413-0b01b6851d2d">
